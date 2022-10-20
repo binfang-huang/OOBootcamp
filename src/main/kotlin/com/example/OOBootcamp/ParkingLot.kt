@@ -10,6 +10,10 @@ class ParkingLot(private val capacity: Int) {
         return capacity - ticketCarMapping.size
     }
 
+    fun containsTicket(ticket: Ticket): Boolean {
+        return ticketCarMapping.containsKey(ticket)
+    }
+
     fun park(car: Car): Ticket {
         if (ticketCarMapping.size >= capacity) {
             throw ParkingLotFullException()

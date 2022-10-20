@@ -16,13 +16,7 @@ class ParkingBoy {
     }
 
     fun pickup(ticket: Ticket): Car {
-        parkingLots.forEach {
-            try {
-                return it.pickup(ticket)
-            } catch (ex: InvalidTicketException) {
-            }
-        }
-        throw InvalidTicketException()
+        val parkingLot = parkingLots.find { it.containsTicket(ticket) } ?: throw InvalidTicketException()
+        return parkingLot.pickup(ticket)
     }
-
 }
