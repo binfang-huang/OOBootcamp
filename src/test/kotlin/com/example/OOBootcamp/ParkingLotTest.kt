@@ -46,7 +46,7 @@ class ParkingLotTest {
         internal fun pick_with_fake_ticket_will_fail() {
             val parkingLot = ParkingLot(2)
             parkingLot.park(Car("川A33333"))
-            val fakeTicket = Ticket(Car("川A33334"))
+            val fakeTicket = Ticket()
 
             Assertions.assertThrows(InvalidTicketException::class.java) {
                 parkingLot.pickup(fakeTicket)
