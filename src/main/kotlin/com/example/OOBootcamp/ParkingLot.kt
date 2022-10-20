@@ -1,28 +1,28 @@
 package com.example.OOBootcamp
 
-import com.example.OOBootcamp.exception.ParkFailedException
-import com.example.OOBootcamp.exception.UnparkFailedException
+import com.example.OOBootcamp.exception.ParkingLotFullException
+import com.example.OOBootcamp.exception.InvalidTicketException
 import java.util.UUID
 
 class ParkingLot(val capacity: Int) {
-    private val tickets = mutableListOf<ParkingTicket>()
+    private val tickets = mutableListOf<Ticket>()
 
-    fun park(cardNumber: String): ParkingTicket {
+    fun park(car: Car): Ticket {
         if (tickets.size >= capacity) {
-            throw ParkFailedException("Parking lot is full")
+            throw ParkingLotFullException()
         }
-        val ticket = ParkingTicket(UUID.randomUUID().toString(), cardNumber)
+        val ticket = Ticket(car)
         tickets.add(ticket)
         return ticket
     }
 
-    fun unpark(ticket: ParkingTicket): String {
+    fun pickup(ticket: Ticket): Car {
         if (!tickets.contains(ticket)) {
-            throw UnparkFailedException("Ticket is invalid")
+            throw InvalidTicketException()
         }
         tickets.remove(ticket)
-        return ticket.carNumber
+        return ticket.car
     }
 }
 
-data class ParkingTicket(val id: String, val carNumber: String)
+

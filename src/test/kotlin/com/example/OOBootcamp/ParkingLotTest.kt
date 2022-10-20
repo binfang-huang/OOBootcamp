@@ -1,7 +1,7 @@
 package com.example.OOBootcamp
 
-import com.example.OOBootcamp.exception.ParkFailedException
-import com.example.OOBootcamp.exception.UnparkFailedException
+import com.example.OOBootcamp.exception.ParkingLotFullException
+import com.example.OOBootcamp.exception.InvalidTicketException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -12,75 +12,72 @@ class ParkingLotTest {
     internal fun can_park_successfully_when_parkingLot_has_capacity() {
         val parkingLot = ParkingLot(2)
 
-        val ticket = parkingLot.park("川A55555")
+        val ticket = parkingLot.park(Car("川A55555"))
 
-        Assertions.assertEquals("川A55555", ticket.carNumber)
+        Assertions.assertNotNull(ticket)
     }
 
     @Test
     internal fun park_failed_when_parkingLot_is_full() {
         val parkingLot = ParkingLot(2)
-        parkingLot.park("川A33333")
-        parkingLot.park("川A44444")
+        parkingLot.park(Car("川A33333"))
+        parkingLot.park(Car("川A44444"))
 
-        val exception = Assertions.assertThrows(ParkFailedException::class.java) {
-            parkingLot.park("川A55555")
+        Assertions.assertThrows(ParkingLotFullException::class.java) {
+            parkingLot.park(Car("川A55555"))
         }
-
-        Assertions.assertEquals("Parking lot is full", exception.message)
     }
 
     @Test
-    internal fun unpark_successfully() {
+    internal fun pickup_successfully() {
         val parkingLot = ParkingLot(2)
-        val ticket = parkingLot.park("川A33333")
+        val car = Car("川A33333")
+        val ticket = parkingLot.park(car)
 
-        val carNumber = parkingLot.unpark(ticket)
+        val pickedCard = parkingLot.pickup(ticket)
 
-        Assertions.assertEquals("川A33333", carNumber)
+        Assertions.assertEquals(car, pickedCard)
     }
 
     @Nested
-    @DisplayName("unpark_failed")
-    inner class UnparkFailed {
+    @DisplayName("pickup_failed")
+    inner class PickupFailed {
         @Test
-        internal fun unparking_with_fake_ticket_will_fail() {
+        internal fun pick_with_fake_ticket_will_fail() {
             val parkingLot = ParkingLot(2)
-            parkingLot.park("川A33333")
-            val fakeTicket = ParkingTicket("fake", "川A33333")
+            parkingLot.park(Car("川A33333"))
+            val fakeTicket = Ticket(Car("川A33334"))
 
-            val exception = Assertions.assertThrows(UnparkFailedException::class.java) {
-                parkingLot.unpark(fakeTicket)
+            Assertions.assertThrows(InvalidTicketException::class.java) {
+                parkingLot.pickup(fakeTicket)
             }
-
-            Assertions.assertEquals("Ticket is invalid", exception.message)
         }
 
         @Test
-        internal fun unparking_with_ticket_twice_will_fail_when_car_is_not_in_parkingLot() {
+        internal fun pickup_with_ticket_twice_will_fail() {
             val parkingLot = ParkingLot(2)
-            val ticket = parkingLot.park("川A33333")
-            parkingLot.unpark(ticket)
+            val ticket = parkingLot.park(Car("川A33333"))
+            parkingLot.pickup(ticket)
 
-            val exception = Assertions.assertThrows(UnparkFailedException::class.java) {
-                parkingLot.unpark(ticket)
+            Assertions.assertThrows(InvalidTicketException::class.java) {
+                parkingLot.pickup(ticket)
             }
+        }
+    }
 
-            Assertions.assertEquals("Ticket is invalid", exception.message)
+    @Test
+    internal fun will_park_fail_when_parkingLog_is_full_but_can_park_successfully_when_some_cards_has_been_picked_up() {
+        val parkingLot = ParkingLot(2)
+        parkingLot.park(Car("川A33333"))
+        val ticket1 = parkingLot.park(Car("川A33334"))
+
+        Assertions.assertThrows(ParkingLotFullException::class.java) {
+            parkingLot.park(Car("川A33335"))
         }
 
-        @Test
-        internal fun unparking_with_ticket_twice_will_fail_when_car_is_in_parkingLot() {
-            val parkingLot = ParkingLot(2)
-            val ticket1 = parkingLot.park("川A33333")
-            parkingLot.unpark(ticket1)
-            val ticket2 = parkingLot.park("川A33333")
+        parkingLot.pickup(ticket1)
+        val ticket2 = parkingLot.park(Car("川A33335"))
 
-            val exception = Assertions.assertThrows(UnparkFailedException::class.java) {
-                parkingLot.unpark(ticket1)
-            }
-
-            Assertions.assertEquals("Ticket is invalid", exception.message)
-        }
+        Assertions.assertNotNull(ticket2)
     }
 }
