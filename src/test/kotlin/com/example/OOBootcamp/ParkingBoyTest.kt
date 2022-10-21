@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 class ParkingBoyTest {
     @Test
-    internal fun should_park_successfully_when_the_parking_lots_is_not_full() {
+    internal fun should_return_ticket_when_park_given_parkingBoy_still_has_capacity() {
         val parkingBoy = ParkingBoy()
         parkingBoy.addParkingLot(ParkingLot(2))
 
@@ -19,7 +19,7 @@ class ParkingBoyTest {
     }
 
     @Test
-    internal fun should_park_failed_when_the_parking_lots_is_full() {
+    internal fun should_return_failed_when_park_given_parkingBoy_is_full() {
         val parkingBoy = ParkingBoy()
         parkingBoy.addParkingLot(ParkingLot(1))
         parkingBoy.park(Car("川A33333"))
@@ -30,7 +30,7 @@ class ParkingBoyTest {
     }
 
     @Test
-    internal fun should_pick_up_successfuly_when_ticket_is_valid() {
+    internal fun should_return_car_when_pickUp_given_a_valid_ticket() {
         val parkingBoy = ParkingBoy()
         parkingBoy.addParkingLot(ParkingLot(1))
         val car = Car("川A33333")
@@ -42,7 +42,7 @@ class ParkingBoyTest {
     }
 
     @Test
-    internal fun should_pick_up_fail_when_ticket_is_invalid() {
+    internal fun should_return_fail_when_pickUp_given_a_invalid_ticket() {
         val parkingBoy = ParkingBoy()
         parkingBoy.addParkingLot(ParkingLot(1))
         parkingBoy.park(Car("川A33333"))
@@ -53,10 +53,10 @@ class ParkingBoyTest {
     }
 
     @Nested
-    @DisplayName("parking_boy_owner_test")
+    @DisplayName("parking_boy_owner_test_cases")
     inner class ParkingBoyOwnerTest {
         @Test
-        internal fun should_park_to_parking_lot_with_most_remaining_capacity() {
+        internal fun should_park_to_parking_lot_with_most_remaining_capacity_given_multiple_not_full_parkingLots() {
             val parkingBoy = ParkingBoy()
             val parkingLot1 = ParkingLot(2)
             parkingLot1.park(Car("川A33333"))
@@ -71,7 +71,7 @@ class ParkingBoyTest {
         }
 
         @Test
-        internal fun should_park_to_parking_lot_inorder_when_parking_lots_have_same_remaining_parking_capacity() {
+        internal fun should_park_to_parkingLot_inOrder_given_parkingLots_have_same_remaining_capacity() {
             val parkingBoy = ParkingBoy()
             val parkingLot1 = ParkingLot(2)
             parkingBoy.addParkingLot(parkingLot1)

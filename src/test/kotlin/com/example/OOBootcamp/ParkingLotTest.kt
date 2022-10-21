@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 
 class ParkingLotTest {
     @Test
-    internal fun can_park_successfully_when_parkingLot_has_capacity() {
+    internal fun should_return_ticket_when_park_given_parkingLog_still_has_capacity() {
         val parkingLot = ParkingLot(2)
 
         val ticket = parkingLot.park(Car("川A55555"))
@@ -18,7 +18,7 @@ class ParkingLotTest {
     }
 
     @Test
-    internal fun park_failed_when_parkingLot_is_full() {
+    internal fun should_return_fail_when_park_given_parkingLot_is_full() {
         val parkingLot = ParkingLot(2)
         parkingLot.park(Car("川A33333"))
         parkingLot.park(Car("川A44444"))
@@ -29,7 +29,7 @@ class ParkingLotTest {
     }
 
     @Test
-    internal fun pickup_successfully() {
+    internal fun should_return_car_pickup_given_a_valid_ticket() {
         val parkingLot = ParkingLot(2)
         val car = Car("川A33333")
         val ticket = parkingLot.park(car)
@@ -40,10 +40,10 @@ class ParkingLotTest {
     }
 
     @Nested
-    @DisplayName("pickup_failed")
+    @DisplayName("pickup_fail")
     inner class PickupFailed {
         @Test
-        internal fun pick_with_fake_ticket_will_fail() {
+        internal fun should_return_fail_when_pickup_given_a_invalid_ticket() {
             val parkingLot = ParkingLot(2)
             parkingLot.park(Car("川A33333"))
             val fakeTicket = Ticket()
@@ -54,7 +54,7 @@ class ParkingLotTest {
         }
 
         @Test
-        internal fun pickup_with_ticket_twice_will_fail() {
+        internal fun should_return_fail_when_pickup_given_a_used_ticket() {
             val parkingLot = ParkingLot(2)
             val ticket = parkingLot.park(Car("川A33333"))
             parkingLot.pickup(ticket)
