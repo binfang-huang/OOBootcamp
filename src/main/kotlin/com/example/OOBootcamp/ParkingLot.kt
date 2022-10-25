@@ -6,14 +6,6 @@ import com.example.OOBootcamp.exception.InvalidTicketException
 class ParkingLot(private val capacity: Int) {
     private val ticketCarMapping = mutableMapOf<Ticket, Car>()
 
-    fun remainingCapacity(): Int {
-        return capacity - ticketCarMapping.size
-    }
-
-    fun containsTicket(ticket: Ticket): Boolean {
-        return ticketCarMapping.containsKey(ticket)
-    }
-
     fun park(car: Car): Ticket {
         if (ticketCarMapping.size >= capacity) {
             throw ParkingLotFullException()
@@ -28,6 +20,18 @@ class ParkingLot(private val capacity: Int) {
             throw InvalidTicketException()
         }
         return ticketCarMapping.remove(ticket)!!
+    }
+
+    internal fun isFull(): Boolean {
+        return capacity == ticketCarMapping.size
+    }
+
+    internal fun containsTicket(ticket: Ticket): Boolean {
+        return ticketCarMapping.containsKey(ticket)
+    }
+
+    internal fun remainingCapacity(): Int {
+        return capacity - ticketCarMapping.size
     }
 }
 
