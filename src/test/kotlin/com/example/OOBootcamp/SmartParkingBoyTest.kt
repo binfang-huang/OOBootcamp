@@ -7,14 +7,14 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-class ParkingBoyTest {
+class SmartParkingBoyTest {
     @Nested
     @DisplayName("parking_inOrder_successfully")
     inner class ParkingInOrderSuccessfully {
         @Test
         internal fun should_park_successfully_given_single_parkingLot() {
             val parkingLot = ParkingLot(2)
-            val parkingBoy = ParkingBoy(listOf(parkingLot))
+            val parkingBoy = SmartParkingBoy(listOf(parkingLot))
             val car = Car("川A44444")
 
             val ticket = parkingBoy.park(car)
@@ -27,7 +27,7 @@ class ParkingBoyTest {
             val parkingLot1 = ParkingLot(1)
             val parkingLot2 = ParkingLot(3)
             val parkingLot3 = ParkingLot(2)
-            val parkingBoy = ParkingBoy(listOf(parkingLot1, parkingLot2, parkingLot3))
+            val parkingBoy = SmartParkingBoy(listOf(parkingLot1, parkingLot2, parkingLot3))
             val car = Car("川A44444")
 
             val ticket = parkingBoy.park(car)
@@ -40,7 +40,7 @@ class ParkingBoyTest {
             val parkingLot1 = ParkingLot(1)
             val parkingLot2 = ParkingLot(2)
             val parkingLot3 = ParkingLot(2)
-            val parkingBoy = ParkingBoy(listOf(parkingLot1, parkingLot2, parkingLot3))
+            val parkingBoy = SmartParkingBoy(listOf(parkingLot1, parkingLot2, parkingLot3))
             val car = Car("川A44444")
 
             val ticket = parkingBoy.park(car)
@@ -56,7 +56,7 @@ class ParkingBoyTest {
         val parkingLot2 = ParkingLot(1)
         parkingLot1.park(Car("川A33333"))
         parkingLot2.park(Car("川A44444"))
-        val parkingBoy = ParkingBoy(listOf(parkingLot1, parkingLot2))
+        val parkingBoy = SmartParkingBoy(listOf(parkingLot1, parkingLot2))
 
         Assertions.assertThrows(ParkingLotFullException::class.java) {
             parkingBoy.park(Car("川A55555"))
@@ -65,7 +65,7 @@ class ParkingBoyTest {
 
     @Test
     internal fun should_return_car_when_pickUp_given_a_valid_ticket() {
-        val parkingBoy = ParkingBoy(listOf(ParkingLot(1), ParkingLot(2)))
+        val parkingBoy = SmartParkingBoy(listOf(ParkingLot(1), ParkingLot(2)))
         val car = Car("川A33333")
         val ticket = parkingBoy.park(car)
 
@@ -76,7 +76,7 @@ class ParkingBoyTest {
 
     @Test
     internal fun should_return_fail_when_pickUp_given_a_invalid_ticket() {
-        val parkingBoy = ParkingBoy(listOf(ParkingLot(1), ParkingLot(1)))
+        val parkingBoy = SmartParkingBoy(listOf(ParkingLot(1), ParkingLot(1)))
 
         Assertions.assertThrows(InvalidTicketException::class.java) {
             parkingBoy.pickup(Ticket())

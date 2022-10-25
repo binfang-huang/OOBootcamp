@@ -21,6 +21,14 @@ dependencies {
 	testImplementation("org.assertj:assertj-core:3.22.0")
 }
 
+tasks.bootJar {
+	enabled = false
+}
+
+tasks.jar {
+	enabled = true
+}
+
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
