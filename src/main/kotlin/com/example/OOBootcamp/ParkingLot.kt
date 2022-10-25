@@ -2,6 +2,9 @@ package com.example.OOBootcamp
 
 import com.example.OOBootcamp.exception.ParkingLotFullException
 import com.example.OOBootcamp.exception.InvalidTicketException
+import com.example.OOBootcamp.model.Car
+import com.example.OOBootcamp.model.Ticket
+import java.math.BigDecimal
 
 class ParkingLot(private val capacity: Int) {
     private val ticketCarMapping = mutableMapOf<Ticket, Car>()
@@ -26,12 +29,16 @@ class ParkingLot(private val capacity: Int) {
         return capacity == ticketCarMapping.size
     }
 
-    internal fun containsTicket(ticket: Ticket): Boolean {
+    internal fun canFindCarBy(ticket: Ticket): Boolean {
         return ticketCarMapping.containsKey(ticket)
     }
 
     internal fun remainingCapacity(): Int {
         return capacity - ticketCarMapping.size
+    }
+
+    internal fun remainingCapacityRate(): Double {
+        return (remainingCapacity().toDouble() / capacity)
     }
 }
 

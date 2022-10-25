@@ -2,6 +2,8 @@ package com.example.OOBootcamp
 
 import com.example.OOBootcamp.exception.ParkingLotFullException
 import com.example.OOBootcamp.exception.InvalidTicketException
+import com.example.OOBootcamp.model.Car
+import com.example.OOBootcamp.model.Ticket
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -18,7 +20,7 @@ class ParkingLotTest {
     }
 
     @Test
-    internal fun should_return_fail_when_park_given_parkingLot_is_full() {
+    internal fun should_return_ParkingLotFullException_when_park_given_parkingLot_is_full() {
         val parkingLot = ParkingLot(2)
         parkingLot.park(Car("川A33333"))
         parkingLot.park(Car("川A44444"))
@@ -43,7 +45,7 @@ class ParkingLotTest {
     @DisplayName("pickup_fail")
     inner class PickupFailed {
         @Test
-        internal fun should_return_fail_when_pickup_given_a_invalid_ticket() {
+        internal fun should_return_InvalidTicketException_when_pickup_given_a_invalid_ticket() {
             val parkingLot = ParkingLot(2)
             parkingLot.park(Car("川A33333"))
             val fakeTicket = Ticket()
@@ -54,7 +56,7 @@ class ParkingLotTest {
         }
 
         @Test
-        internal fun should_return_fail_when_pickup_given_a_used_ticket() {
+        internal fun should_return_InvalidTicketException_when_pickup_given_a_used_ticket() {
             val parkingLot = ParkingLot(2)
             val ticket = parkingLot.park(Car("川A33333"))
             parkingLot.pickup(ticket)

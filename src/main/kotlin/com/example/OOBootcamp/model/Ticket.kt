@@ -1,4 +1,4 @@
-package com.example.OOBootcamp
+package com.example.OOBootcamp.model
 
 import java.util.*
 
