@@ -1,7 +1,7 @@
 package com.example.OOBootcamp
 
-import com.example.OOBootcamp.exception.ParkingLotFullException
 import com.example.OOBootcamp.exception.InvalidTicketException
+import com.example.OOBootcamp.exception.ParkingLotFullException
 import com.example.OOBootcamp.model.Car
 import com.example.OOBootcamp.model.Ticket
 import org.junit.jupiter.api.Assertions

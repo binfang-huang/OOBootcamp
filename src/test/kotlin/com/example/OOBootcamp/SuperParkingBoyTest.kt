@@ -4,10 +4,8 @@ import com.example.OOBootcamp.exception.InvalidTicketException
 import com.example.OOBootcamp.exception.ParkingLotFullException
 import com.example.OOBootcamp.model.Car
 import com.example.OOBootcamp.model.Ticket
-import com.example.OOBootcamp.parkingstrategy.MaxAvailableRateParkingOrderStrategy
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class SuperParkingBoyTest {
     @Test
@@ -24,7 +22,7 @@ class SuperParkingBoyTest {
         parkingLot3.park(Car("川A55555"))
 
         val parkingBoy =
-            ParkingBoy(listOf(parkingLot1, parkingLot2, parkingLot3), MaxAvailableRateParkingOrderStrategy())
+            SuperParkingBoy(listOf(parkingLot1, parkingLot2, parkingLot3))
 
         val car = Car("川A44444")
 
@@ -41,7 +39,7 @@ class SuperParkingBoyTest {
         val parkingLot2 = ParkingLot(1)
         parkingLot2.park(Car("川A33333"))
 
-        val parkingBoy = ParkingBoy(listOf(parkingLot1, parkingLot2), MaxAvailableRateParkingOrderStrategy())
+        val parkingBoy = SuperParkingBoy(listOf(parkingLot1, parkingLot2))
 
         Assertions.assertThrows(ParkingLotFullException::class.java) {
             parkingBoy.park(Car("川A44444"))
@@ -50,7 +48,7 @@ class SuperParkingBoyTest {
 
     @Test
     internal fun should_get_car_when_pickup_given_valid_ticket() {
-        val parkingBoy = ParkingBoy(listOf(ParkingLot(1), ParkingLot(1)), MaxAvailableRateParkingOrderStrategy())
+        val parkingBoy = SuperParkingBoy(listOf(ParkingLot(1), ParkingLot(1)))
         val car = Car("川A44444")
         val ticket = parkingBoy.park(car)
 
@@ -61,7 +59,7 @@ class SuperParkingBoyTest {
 
     @Test
     internal fun should_get_InvalidTicketException_when_pickup_given_invalid_ticket() {
-        val parkingBoy = ParkingBoy(listOf(ParkingLot(1), ParkingLot(1)), MaxAvailableRateParkingOrderStrategy())
+        val parkingBoy = SuperParkingBoy(listOf(ParkingLot(1), ParkingLot(1)))
         val car = Car("川A44444")
         parkingBoy.park(car)
 
